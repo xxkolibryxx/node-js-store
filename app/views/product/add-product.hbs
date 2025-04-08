@@ -1,0 +1,48 @@
+<div class="container">
+    <h2>Add new product</h2>
+    <form class="row g-3 needs-validation" method="POST" action="http://localhost:4000/products/addProduct">
+        <div class="col-12">
+            <label class="form-label">Product name</label>
+            <input type="text" class="form-control" name="name" required>
+            <div class="valid-feedback">
+                Product name is required
+            </div>
+        </div>
+        <div class="col-12">
+            <label class="form-label">Product image</label>
+            <input type="text" class="form-cgit remote add origin git@github.com:xxkolibryxx/node-js-store.gitontrol" name="image" required>
+            <div class="valid-feedback">
+                Product image is required
+            </div>
+        </div>
+        <div class="col-12">
+            <label class="form-label">Product price</label>
+            <input type="text" class="form-control" name="price" required>
+            <div class="valid-feedback">
+                Product price is required
+            </div>
+        </div>
+        <div class="col-12">
+            <label class="form-label">Product description</label>
+            <input type="text" class="form-control" name="description" required>
+            <div class="valid-feedback">
+                Product description is required
+            </div>
+        </div>
+        <div class="col-12">
+            <label class="form-label">Product name</label>
+            <select class="form-select" aria-label="Default select example" name="category_id" required>
+                <option selected>Select category</option>
+                {{#each categories}}
+                <option value="{{this.id}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+            <div class="valid-feedback">
+                Product name is required
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Add product</button>
+        </div>
+    </form>
+</div>
