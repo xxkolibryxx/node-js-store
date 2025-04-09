@@ -4,8 +4,8 @@ import { productSingle, productPage, addProduct, addProductPage } from '../contr
 const router = Router();
 
 router.get('/', productPage)
-router.get('/:id', productSingle)
-router.post('/addProduct', addProduct);
 router.get('/add-product', addProductPage);
+router.post('/addProduct', addProduct);
+router.get('/:id', productSingle)
 
 export { router as productRoutes }
