@@ -2,7 +2,7 @@ import { Router } from "express"
 import { productRoutes } from "./product-routes.js"
 import { homeRoutes } from "./static-routes.js"
 import { categoryRoutes } from "./category-routes.js"
-import { adminRoutes } from "./admin-routes.js"
+import { adminRoutes } from "./admin/router.js"
 
 const router = Router()
 router.use('/', homeRoutes)

@@ -17,11 +17,3 @@ export const getProductsByCategory = async (id) => {
     const products = await getAllProducts();
     return products.filter((product) => product.category_id === id)
 }
-
-export const addProduct = async (product) => {
-    const products = await getAllProducts();
-    product.id = products.length ? products[products.length - 1].id + 1 : 1;
-    products.push(product)
-    await fs.promises.writeFile(filePath, JSON.stringify(products, null, 2))
-    return product
-}
