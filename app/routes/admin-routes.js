@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { addProductPage } from '../controller/product-controller.js'
+import { adminProductRoutes } from "./admin/product-routes.js";
+import { adminStaticRoutes } from "./admin/static-routes.js";
 
 const router = Router();
 
-router.get('/products/add-product', addProductPage);
+router.use('/', adminStaticRoutes)
+router.use('/products', adminProductRoutes)
 
 export { router as adminRoutes }

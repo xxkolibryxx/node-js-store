@@ -8,9 +8,11 @@ app.use(express.json());
 // Handle Bars Config
 const hbs = create({
     extname: "hbs",
-    defaultLayout: "main",
-    layoutsDir: "app/views/layouts",
-    partialsDir: "app/views/partials"
+    helpers: {
+        eq: (a, b) => a === b,
+        and: (...args) => args.every(Boolean),
+        or: (...args) => args.some(Boolean)
+    }
 })
 
 app.engine(
