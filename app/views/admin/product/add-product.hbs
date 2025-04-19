@@ -1,17 +1,16 @@
 <div class="container">
     <h2>Add new product</h2>
-    <form class="row g-3 needs-validation" method="POST" action="http://localhost:4000/products/addProduct">
+    <form class="row g-3 needs-validation" method="POST" action="http://localhost:4000/admin/products/addProduct">
         <div class="col-12">
-            <label class="form-label">Product name</label>
-            <input type="text" class="form-control" name="name" required>
+            <label class="form-label">Product Title</label>
+            <input type="text" class="form-control" name="title" required>
             <div class="valid-feedback">
-                Product name is required
+                Product title is required
             </div>
         </div>
         <div class="col-12">
             <label class="form-label">Product image</label>
-            <input type="text" class="form-control remote add origin git@github.com:xxkolibryxx/node-js-store.gitontrol"
-                name="image" required>
+            <input type="text" class="form-control" name="image" required>
             <div class="valid-feedback">
                 Product image is required
             </div>
@@ -31,15 +30,14 @@
             </div>
         </div>
         <div class="col-12">
-            <label class="form-label">Product name</label>
-            <select class="form-control" aria-label="Default select example" name="category_id" required>
-                <option selected>Select category</option>
+            <label class="form-label">Category</label>
+            <select class="form-control" aria-label="Default select example" name="categoryId" required>
                 {{#each categories}}
-                <option value="{{this.id}}">{{this.name}}</option>
+                <option value="{{this.id}}">{{this.title}}</option>
                 {{/each}}
             </select>
             <div class="valid-feedback">
-                Product name is required
+                Category is required
             </div>
         </div>
         <div class="col-12 mt-3">

@@ -1,15 +1,28 @@
-import fs from 'fs';
-import path from 'path';
-
-const filePath = path.resolve('app/db/category.json');
+import { prisma } from '../../services/prisma.js'
 
 export const getAllCategories = async () => {
-    const data = await fs.promises.readFile(filePath, 'utf8')
-    return JSON.parse(data)
+    const data = await prisma.category.findMany()
+    return data
 }
 
 export const getCategoryById = async (id) => {
-    const categories = await getAllCategories();
+    const categories = await prisma.category.findFirst({
+        where: {
+            id: +id
+        }
+    })
 
-    return categories.find((category) => category.id === id)
+    return categories
+}
+
+export const addNewCategory = async ({ title }) => {
+    const response = await prisma.category.create({
+        data: {
+            title,
+        }
+    })
+    if (response) {
+        return true
+    }
+    return false
 }

@@ -1,13 +1,16 @@
 import { getAllCategories, getCategoryById } from "../model/category-model.js";
 import { getProductsByCategory } from "../model/product-model.js";
+import * as categoryModel from '../model/category-model.js'
 
 export const categorySingle = async (req, res) => {
-    const category = await getCategoryById(+req.params.id);
-    const products = await getProductsByCategory(category.id);
-    const categories = await getAllCategories();
+    const category = await categoryModel.getCategoryById(req.params.id);
+    const categories = await categoryModel.getAllCategories();
     res.render('product/single-category.hbs', {
-        category,
-        products,
+        category: {
+            id: category.id,
+            title: category.title
+        },
+        products: category.products,
         categories
     })
 }

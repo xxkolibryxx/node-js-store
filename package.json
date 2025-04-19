@@ -12,9 +12,11 @@
 	"type": "module",
 	"devDependencies": {
 		"dotenv": "^16.4.7",
-		"nodemon": "^3.1.9"
+		"nodemon": "^3.1.9",
+		"prisma": "^6.6.0"
 	},
 	"dependencies": {
+		"@prisma/client": "^6.6.0",
 		"express": "^4.21.2",
 		"express-handlebars": "^8.0.1"
 	}

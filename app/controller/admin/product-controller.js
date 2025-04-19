@@ -20,3 +20,13 @@ export const addProductPage = async (req, res) => {
         categories,
     })
 }
+
+export const addProductAction = async (req, res) => {
+    const response = await productModel.addNewProduct(req.body)
+    if (response) {
+        res.redirect('/admin/products?success=1')
+    }
+    else {
+        res.redirect('/admin/products?success=0')
+    }
+}
