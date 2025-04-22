@@ -3,13 +3,14 @@ import * as categoryModel from '../../model/admin/category-model.js'
 
 export const productList = async (req, res) => {
     const products = await productModel.getAllProducts();
-    // const categories = await categoryModel.getAllCategories();
+    const { success } = req.session
+    req.session.success = null
     res.render('admin/product/product-list.hbs', {
         layout: 'admin',
         active: 'product-list',
         dataTable: true,
         products,
-        // categories
+        success
     })
 }
 
@@ -23,10 +24,6 @@ export const addProductPage = async (req, res) => {
 
 export const addProductAction = async (req, res) => {
     const response = await productModel.addNewProduct(req.body)
-    if (response) {
-        res.redirect('/admin/products?success=1')
-    }
-    else {
-        res.redirect('/admin/products?success=0')
-    }
+    req.session.success = response ? { status: true, message: 'Product add successful' } : { status: false, message: 'Something went wrong' }
+    res.redirect('/admin/products')
 }

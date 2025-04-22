@@ -5,6 +5,15 @@
     <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
         For more information about DataTables, please visit the <a target="_blank"
             href="https://datatables.net">official DataTables documentation</a>.</p>
+    {{#if success}}
+    <div class="alert {{#if success.status}}alert-success{{else}}alert-danger{{/if}} alert-dismissible fade show"
+        role="alert">
+        {{success.message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {{/if}}
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -26,7 +35,7 @@
                         <tr>
                             <td>{{this.title}}</td>
                             <td>{{this.price}}</td>
-                            <td>{{this.category_id}}</td>
+                            <td>{{this.category.title}}</td>
                             <td>
                                 <a href="#" class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-pen"></i>

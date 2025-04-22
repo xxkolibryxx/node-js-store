@@ -4,7 +4,16 @@ import { prisma } from '../../services/prisma.js'
 const filePath = path.resolve('app/db/products.json');
 
 export const getAllProducts = async () => {
-    const data = await prisma.product.findMany()
+    const data = await prisma.product.findMany({
+        include: {
+            category: {
+                select: {
+                    id: true,
+                    title: true
+                }
+            }
+        }
+    })
     return data
 }
 

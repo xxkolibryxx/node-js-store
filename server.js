@@ -1,10 +1,15 @@
 import express from 'express'
 import { create } from 'express-handlebars'
 import { router } from './app/routes/router.js';
+import session from 'express-session';
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}))
 // Handle Bars Config
 const hbs = create({
     extname: "hbs",
