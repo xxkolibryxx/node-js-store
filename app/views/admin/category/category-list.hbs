@@ -1,10 +1,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-        For more information about DataTables, please visit the <a target="_blank"
-            href="https://datatables.net">official DataTables documentation</a>.</p>
+    <h1 class="h3 mb-2 text-gray-800">Categories</h1>
     {{#if success}}
     <div class="alert {{#if success.status}}alert-success{{else}}alert-danger{{/if}} alert-dismissible fade show"
         role="alert">
@@ -17,7 +14,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Category list</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -26,24 +23,20 @@
                         <tr>
                             <th>ID</th>
                             <th>Title</th>
-                            <th>Price</th>
-                            <th>Category</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each products}}
+                        {{#each categories}}
                         <tr>
                             <td>{{this.id}}</td>
                             <td>{{this.title}}</td>
-                            <td>{{this.price}}</td>
-                            <td>{{this.category.title}}</td>
                             <td>
-                                <a href="/admin/products/update-product/{{this.id}}"
+                                <a href="/admin/category/update-category/{{this.id}}"
                                     class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-pen"></i>
                                 </a>
-                                <a href="/admin/products/deleteProduct/{{this.id}}"
+                                <a href="/admin/category/deleteCategory/{{this.id}}"
                                     class="btn btn-danger btn-circle btn-sm">
                                     <i class="fas fa-trash"></i>
                                 </a>

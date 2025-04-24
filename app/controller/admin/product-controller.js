@@ -27,3 +27,25 @@ export const addProductAction = async (req, res) => {
     req.session.success = response ? { status: true, message: 'Product add successful' } : { status: false, message: 'Something went wrong' }
     res.redirect('/admin/products')
 }
+
+export const updateProductPage = async (req, res) => {
+    const productId = req.params.id
+    const categories = await categoryModel.getAllCategories()
+    const product = await productModel.getProductById(productId)
+    res.render('admin/product/update-product.hbs', {
+        layout: 'admin',
+        categories,
+        product
+    })
+}
+
+export const updateProductAction = async (req, res) => {
+    const response = await productModel.updateProduct(req.body)
+    req.session.success = response ? { status: true, message: 'Product Updated' } : { status: false, message: 'Something went wrong' }
+    res.redirect('/admin/products')
+}
+export const deleteProductAction = async (req, res) => {
+    const response = await productModel.deleteProduct(req.params.id)
+    req.session.success = response ? { status: true, message: 'Product Deleted' } : { status: false, message: 'Something went wrong' }
+    res.redirect('/admin/products')
+}

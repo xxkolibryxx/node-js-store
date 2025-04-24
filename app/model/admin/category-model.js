@@ -26,3 +26,30 @@ export const addNewCategory = async ({ title }) => {
     }
     return false
 }
+
+export const updateCategory = async ({ id, title }) => {
+    const response = await prisma.category.update({
+        where: {
+            id: +id
+        },
+        data: {
+            title,
+        }
+    })
+    if (response) {
+        return true
+    }
+    return false
+}
+
+export const deleteCategory = async (id) => {
+    const response = await prisma.category.delete({
+        where: {
+            id: +id
+        },
+    })
+    if (response) {
+        return true
+    }
+    return false
+}
