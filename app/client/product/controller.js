@@ -1,0 +1,18 @@
+import * as categoryModel from "../category/model.js";
+import * as productModel from "./model.js";
+
+export const getById = async (req, res) => {
+    const product = await productModel.getProductById(+req.params.id);
+    res.render('product/single-product.hbs', {
+        product,
+    })
+}
+
+export const getAll = async (req, res) => {
+    const products = await productModel.getAll();
+    const categories = await categoryModel.getAll();
+    res.render('product/product.hbs', {
+        products,
+        categories
+    })
+}
