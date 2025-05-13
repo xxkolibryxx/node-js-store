@@ -2,26 +2,31 @@
 	{
 		"id": 1,
 		"image": "/slider/promo_62a23ea2765f4919627143.900.jpg",
-		"alt": ""
+		"alt": "",
+		"sliderId": 1
 	},
 	{
 		"id": 2,
 		"image": "/slider/promo_62a23ecd70f7b636085500.900.jpg",
-		"alt": ""
+		"alt": "",
+		"sliderId": 1
 	},
 	{
 		"id": 3,
 		"image": "/slider/promo_6290c480f07d1867247405.900.jpg",
-		"alt": ""
+		"alt": "",
+		"sliderId": 1
 	},
 	{
 		"id": 4,
 		"image": "/slider/promo_6303a0c1f149e171944764.900.jpg",
-		"alt": ""
+		"alt": "",
+		"sliderId": 1
 	},
 	{
 		"id": 5,
 		"image": "/slider/promo_6303a10013e30776882950.900.jpg",
-		"alt": ""
+		"alt": "",
+		"sliderId": 1
 	}
 ]

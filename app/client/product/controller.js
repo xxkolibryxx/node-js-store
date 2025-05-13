@@ -9,10 +9,17 @@ export const getById = async (req, res) => {
 }
 
 export const getAll = async (req, res) => {
-    const products = await productModel.getAll();
-    const categories = await categoryModel.getAll();
-    res.render('product/product.hbs', {
-        products,
-        categories
-    })
+    try {
+        const products = await productModel.getAll();
+        const categories = await categoryModel.getAll();
+        res.render('product/product.hbs', {
+            products,
+            categories
+        })
+    }
+    catch (error) {
+        res.render('product/product.hbs', {
+            notFoundMessage: 'No products found yet'
+        })
+    }
 }

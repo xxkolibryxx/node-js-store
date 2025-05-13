@@ -1,7 +1,11 @@
+import { ErrorService } from '../../services/error-service.js'
 import { prisma } from '../../services/prisma.js'
 
 export const getAll = async () => {
     const data = await prisma.category.findMany()
+    if (!data) {
+        throw ErrorService.BadRequestError()
+    }
     return data
 }
 
@@ -11,6 +15,9 @@ export const getById = async (id) => {
             id: +id
         }
     })
+    if (!categories) {
+        throw ErrorService.BadRequestError()
+    }
 
     return categories
 }
@@ -21,10 +28,10 @@ export const create = async ({ title }) => {
             title,
         }
     })
-    if (response) {
-        return true
+    if (!response) {
+        throw ErrorService.BadRequestError()
     }
-    return false
+    return true
 }
 
 export const update = async ({ id, title }) => {
@@ -36,10 +43,10 @@ export const update = async ({ id, title }) => {
             title,
         }
     })
-    if (response) {
-        return true
+    if (!response) {
+        throw ErrorService.BadRequestError()
     }
-    return false
+    return true
 }
 
 export const remove = async (id) => {
@@ -48,8 +55,8 @@ export const remove = async (id) => {
             id: +id
         },
     })
-    if (response) {
-        return true
+    if (!response) {
+        throw ErrorService.BadRequestError()
     }
-    return false
+    return true
 }

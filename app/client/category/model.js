@@ -1,5 +1,5 @@
 import { prisma } from '../../services/prisma.js'
-
+import { ErrorService } from '../../services/error-service.js'
 export const getAll = async () => {
     const data = await prisma.category.findMany({
         select: {
@@ -7,10 +7,15 @@ export const getAll = async () => {
             title: true
         }
     })
+    if (!data) {
+        throw ErrorService.NotFoundErrorCreator()
+    }
     return data
 }
 
 export const getById = async (id) => {
+    console.log('ID', id);
+
     const data = await prisma.category.findFirst({
         where: {
             id: +id
@@ -30,13 +35,17 @@ export const getById = async (id) => {
             }
         }
     })
+
+    if (!data) {
+        throw ErrorService.NotFoundErrorCreator()
+    }
     return data
 }
 
-export const getAllWithProductsLimit = async () => {
+export const getAllWithProductsLimit = async (categoryIds = []) => {
     const categories = await prisma.category.findMany({
         where: {
-            id: { in: [1, 2, 3, 4] },
+            id: { in: categoryIds },
             products: {
                 some: {},
             }
@@ -46,6 +55,9 @@ export const getAllWithProductsLimit = async () => {
             title: true
         },
     })
+    if (!categories) {
+        throw ErrorService.NotFoundErrorCreator()
+    }
     const categoriesWithProducts = await Promise.all(
         categories.map(async (category) => {
             const products = await prisma.product.findMany({

@@ -1,3 +1,4 @@
+import { ErrorService } from '../../services/error-service.js'
 import { prisma } from '../../services/prisma.js'
 
 export const getAll = async () => {
@@ -16,6 +17,11 @@ export const getAll = async () => {
             }
         }
     })
+    console.log(data);
+
+    if (!data.length) {
+        throw ErrorService.NotFoundErrorCreator()
+    }
     return data
 }
 
@@ -38,9 +44,15 @@ export const getById = async (id) => {
             }
         }
     })
+    if (!data) {
+        throw ErrorService.NotFoundErrorCreator()
+    }
     return data
 }
 export const getByCategory = async (id) => {
     const products = await getAll();
+    if (!products) {
+        throw ErrorService.NotFoundErrorCreator()
+    }
     return products.filter((product) => product.category_id === id)
 }

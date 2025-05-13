@@ -1,8 +1,8 @@
 import * as categoryModel from './model.js'
 
 export const getById = async (req, res) => {
-    const category = await categoryModel.getById(req.params.id);
-    if (category) {
+    try {
+        const category = await categoryModel.getById(req.params.id);
         const categories = await categoryModel.getAll();
         res.render('product/single-category.hbs', {
             category: {
@@ -13,7 +13,9 @@ export const getById = async (req, res) => {
             categories
         })
     }
-    else {
-        res.status(404).render('404.hbs')
+    catch (error) {
+        res.render('product/single-category.hbs', {
+            notFoundMessage: 'No category found yet'
+        })
     }
 }

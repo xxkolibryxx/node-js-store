@@ -1,5 +1,5 @@
 import { prisma } from '../../services/prisma.js'
-
+import { ErrorService } from '../../services/error-service.js'
 export const getAll = async () => {
     const data = await prisma.product.findMany({
         include: {
@@ -11,6 +11,9 @@ export const getAll = async () => {
             }
         }
     })
+    if (!data) {
+        throw ErrorService.BadRequestError()
+    }
     return data
 }
 
@@ -20,24 +23,28 @@ export const getById = async (id) => {
             id: +id
         },
     })
+    if (!data) {
+        throw ErrorService.BadRequestError()
+    }
     return data
 }
 
-export const create = async ({ title, price, description, image, categoryId }) => {
+export const create = async (req) => {
+    const { title, price, description, image, categoryId } = req.body
+    const imagePath = req.filePath
     const response = await prisma.product.create({
         data: {
             title,
             price: +price,
             description,
-            image,
+            image: imagePath,
             categoryId: +categoryId
         }
     })
-    if (response) {
-
-        return true
+    if (!response) {
+        throw ErrorService.BadRequestError()
     }
-    return false
+    return true
 }
 
 export const update = async ({ id, title, price, description, image, categoryId }) => {
@@ -53,11 +60,11 @@ export const update = async ({ id, title, price, description, image, categoryId 
             categoryId: +categoryId
         }
     })
-    if (response) {
+    if (!response) {
 
-        return true
+        throw ErrorService.BadRequestError()
     }
-    return false
+    return true
 }
 
 export const remove = async (id) => {
@@ -66,9 +73,8 @@ export const remove = async (id) => {
             id: +id
         }
     })
-    if (response) {
-
-        return true
+    if (!response) {
+        throw ErrorService.BadRequestError()
     }
-    return false
+    return true
 }

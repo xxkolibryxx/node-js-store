@@ -8,7 +8,7 @@ export class ErrorService extends Error {
         this.errors = errors;
     }
 
-    static BadRequestError(message, errors = []) {
+    static BadRequestError(message = 'Bad Request', errors = []) {
         return new ErrorService(500, message, errors)
     }
 
