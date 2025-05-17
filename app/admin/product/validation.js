@@ -4,8 +4,8 @@ export default {
     createSchema: {
         body: Joi.object({
             title: Joi.string()
-                .regex(/^[a-zA-Zա-ևԱ-Ֆа-яА-Я ]+$/)
-                .message("Category title can't contain number or symbol")
+                .regex(/^[a-zA-Zա-ևԱ-Ֆа-яА-Я0-9 _-]+$/)
+                .message("Product title can't contain number or symbol")
                 .required(),
             price: Joi.number().required(),
             description: Joi.string().required(),
@@ -16,8 +16,8 @@ export default {
         body: Joi.object({
             id: Joi.number().required(),
             title: Joi.string()
-                .regex(/^[a-zA-Zա-ևԱ-Ֆа-яА-Я ]+$/)
-                .message("Category title can't contain number or symbol")
+                .regex(/^[a-zA-Zա-ևԱ-Ֆа-яА-Я0-9 _-]+$/)
+                .message("Product title can't contain number or symbol")
                 .required(),
             price: Joi.number().required(),
             description: Joi.string().required(),

@@ -9,10 +9,10 @@ import { setUser } from "../middlewares/set-user-middleware.js"
 
 const router = Router()
 
-router.use('/', homeRoutes)
+router.use('/', setUser, homeRoutes)
 router.use('/', authRoutes)
-router.use('/products', productRoutes)
-router.use('/category', categoryRoutes)
+router.use('/products', setUser, productRoutes)
+router.use('/category', setUser, categoryRoutes)
 router.use('/profile', authMiddleware, setUser, profileRoutes)
 
 export { router as clientRoutes }

@@ -29,6 +29,7 @@ export const login = async (req, res) => {
         const { data } = await authModel.login(req.body)
         req.session.userId = data.id
         req.session.user = data
+
         res.redirect('/profile')
     } catch (error) {
         req.session.error = error.message
@@ -37,4 +38,15 @@ export const login = async (req, res) => {
 }
 export const logout = (req, res) => {
     req.session.destroy(() => res.redirect('/login'))
+}
+
+export const activateUser = async (req, res) => {
+    try {
+        const { activationLink } = req.params
+        const response = await authModel.activateUser(activationLink)
+        res.redirect('/login')
+    } catch (error) {
+        req.session.error = error.message
+        res.redirect('/login')
+    }
 }

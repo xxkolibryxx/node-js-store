@@ -1,6 +1,7 @@
 import express from 'express'
 import session from 'express-session';
 import { create } from 'express-handlebars'
+import { PrismaSessionStore } from './app/services/PrismaSessionStore.js';
 
 import { clientRoutes } from './app/client/router.js';
 import { adminRoutes } from './app/admin/router.js';
@@ -12,8 +13,9 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: new PrismaSessionStore(),
     cookie: {
-        maxAge: 36000
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     }
 }))
 // Handle Bars Config

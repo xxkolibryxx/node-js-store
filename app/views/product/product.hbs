@@ -1,9 +1,9 @@
 {{#if notFoundMessage}}
 <p class="fs-3 text-center mt-4">{{notFoundMessage}}</p>
 {{else}}
-{{> product-filter}}
 <div class="container">
     <h1 class="text-center my-4">Products</h1>
+    {{> product-filter}}
     <div class="row">
         {{#each products}}
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">

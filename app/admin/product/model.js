@@ -1,5 +1,6 @@
 import { prisma } from '../../services/prisma.js'
 import { ErrorService } from '../../services/error-service.js'
+import { removeUploadedFile } from '../helpers/remove-uploaded-file.js'
 export const getAll = async () => {
     const data = await prisma.product.findMany({
         include: {
@@ -30,7 +31,7 @@ export const getById = async (id) => {
 }
 
 export const create = async (req) => {
-    const { title, price, description, image, categoryId } = req.body
+    const { title, price, description, categoryId } = req.body
     const imagePath = req.filePath
     const response = await prisma.product.create({
         data: {
@@ -47,7 +48,21 @@ export const create = async (req) => {
     return true
 }
 
-export const update = async ({ id, title, price, description, image, categoryId }) => {
+export const update = async (req) => {
+    const { id, title, price, description, categoryId } = req.body
+    const product = await prisma.product.findUnique({ where: { id: Number(id) } });
+    if (!product) {
+        req.session.error = 'Product not found';
+        throw ErrorService.BadRequestError()
+    }
+    let imagePath = product.image
+
+    if (req.file) {
+        if (product.image) {
+            await removeUploadedFile(product.image)
+        }
+        imagePath = req.filePath;
+    }
     const response = await prisma.product.update({
         where: {
             id: +id
@@ -56,7 +71,7 @@ export const update = async ({ id, title, price, description, image, categoryId 
             title,
             price: +price,
             description,
-            image,
+            image: imagePath,
             categoryId: +categoryId
         }
     })
@@ -68,6 +83,19 @@ export const update = async ({ id, title, price, description, image, categoryId 
 }
 
 export const remove = async (id) => {
+
+    const product = await prisma.product.findFirst({
+        where: {
+            id: +id
+        }
+    })
+    if (!product) {
+        throw ErrorService.BadRequestError()
+    }
+    if (product.image) {
+        await removeUploadedFile(product.image)
+    }
+
     const response = await prisma.product.delete({
         where: {
             id: +id

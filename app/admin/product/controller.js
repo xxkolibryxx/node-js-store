@@ -54,7 +54,7 @@ export const updatePage = async (req, res) => {
 
 export const update = async (req, res) => {
     try {
-        await productModel.update(req.body)
+        await productModel.update(req)
         req.session.success = { status: true, message: 'Product Updated' }
         res.redirect('/admin/products')
     } catch (error) {

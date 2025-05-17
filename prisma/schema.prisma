@@ -43,16 +43,31 @@ model Category {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   first_name     String
   last_name      String
-  email          String   @unique
+  email          String    @unique
   password       String
-  role           Role     @default(USER)
-  activationLink String?
-  isActivated    Boolean  @default(false)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  role           Role      @default(USER)
+  activationLink String?   @unique
+  isActivated    Boolean   @default(false)
+  sessions       Session[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   @@map("user")
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  sid       String   @unique
+  data      String   @db.Text
+  expiresAt DateTime
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([expiresAt])
+  @@map("session")
 }

@@ -3,7 +3,7 @@ import * as categoryModel from '../category/model.js'
 
 export const homePage = async (req, res) => {
     try {
-        const categories = await categoryModel.getAllWithProductsLimit([6, 8])
+        const categories = await categoryModel.getAllWithProductsLimit([1, 2, 3])
         const slider = await staticModel.getSlider();
         res.render('home', {
             headline: 'Online Shop',

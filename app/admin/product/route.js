@@ -18,7 +18,14 @@ router.post('/create', uploadFileMiddleware('image',
     }
 ), validateMiddleware(createSchema), create);
 router.get('/update/:id', updatePage);
-router.post('/update', validateMiddleware(updateSchema), update);
+router.post('/update', uploadFileMiddleware('image',
+    {
+        allowedTypes: ['.jpg', '.jpeg', '.png', '.webp'],
+        maxSizeMB: 3,
+        prefix: 'product',
+        subFolder: 'products'
+    }
+), validateMiddleware(updateSchema), update);
 router.get('/delete/:id', validateMiddleware(deleteSchema), remove);
 
 export { router as productRoutes }

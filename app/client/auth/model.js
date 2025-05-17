@@ -70,3 +70,31 @@ export const login = async ({ email, password }) => {
         }
     }
 }
+
+export const activateUser = async (activationLink) => {
+    const user = await prisma.user.findUnique({
+        select: {
+            id: true,
+            activationLink: true,
+            isActivated: true
+        },
+        where: {
+            activationLink
+        }
+    })
+    if (!user) {
+        throw ErrorService.BadRequestError()
+    }
+    if (user.isActivated) {
+        throw ErrorService.BadRequestError('User already activated')
+    }
+    await prisma.user.update({
+        where: {
+            id: user.id
+        },
+        data: {
+            isActivated: true
+        }
+    })
+    return true
+}

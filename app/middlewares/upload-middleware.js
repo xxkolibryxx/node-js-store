@@ -16,7 +16,7 @@ export const uploadFileMiddleware = (fieldName, {
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0')
 
-    const dynamicFolder = path.join(subFolder, `/${year}/${month}`)
+    const dynamicFolder = `${subFolder}/${year}/${month}`
     const fullPath = path.join(BASE_FILE_PATH, dynamicFolder)
 
 
@@ -62,7 +62,7 @@ export const uploadFileMiddleware = (fieldName, {
                 return res.redirect('back')
             }
             if (req.file) {
-                req.filePath = `/${BASE_FILE_PATH}/${dynamicFolder}/${req.file.filename}`
+                req.filePath = `${dynamicFolder}/${req.file.filename}`
             }
             if (req.files) {
                 req.filePaths = req.files.map((file) => `/${BASE_FILE_PATH}/${dynamicFolder}/${file.filename}`)

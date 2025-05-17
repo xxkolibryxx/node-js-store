@@ -17,8 +17,6 @@ export const getAll = async () => {
             }
         }
     })
-    console.log(data);
-
     if (!data.length) {
         throw ErrorService.NotFoundErrorCreator()
     }

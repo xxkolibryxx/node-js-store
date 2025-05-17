@@ -14,8 +14,6 @@ export const getAll = async () => {
 }
 
 export const getById = async (id) => {
-    console.log('ID', id);
-
     const data = await prisma.category.findFirst({
         where: {
             id: +id

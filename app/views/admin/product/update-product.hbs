@@ -5,7 +5,8 @@
         {{error}}
     </div>
     {{/if}}
-    <form class="row g-3 needs-validation" method="POST" action="http://localhost:4000/admin/products/update">
+    <form class="row g-3 needs-validation" method="POST" action="http://localhost:4000/admin/products/update"
+        enctype="multipart/form-data">
         <input type="hidden" name="id" value="{{product.id}}">
         <div class="col-12">
             <label class="form-label">Product Title</label>
@@ -15,11 +16,15 @@
             </div>
         </div>
         <div class="col-12">
-            <label class="form-label">Product image</label>
-            <input type="text" class="form-control" name="image" value="{{product.image}}" required>
-            <div class="valid-feedback">
-                Product image is required
+            <div class="custom-file mb-3 mt-4">
+                <input type="file" class="custom-file-input" id="image" name="image">
+                <label class="custom-file-label" for="image">Select product image</label>
             </div>
+            {{#if product.image}}
+            <img src="/uploads/{{product.image}}" width="150" class="mb-2">
+            {{else}}
+            <p>No image uploaded</p>
+            {{/if}}
         </div>
         <div class="col-12">
             <label class="form-label">Product price</label>
