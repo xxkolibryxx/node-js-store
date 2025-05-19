@@ -12,7 +12,6 @@ export const setUser = async (req, res, next) => {
             first_name: true,
             last_name: true,
             email: true,
-            createdAt: true
         }
     })
     res.locals.currentUser = user || null;

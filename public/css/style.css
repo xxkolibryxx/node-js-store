@@ -11,3 +11,10 @@ body {
 main {
     flex: 1;
 }
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    color: #ffffff !important;
+}

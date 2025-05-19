@@ -13,9 +13,13 @@
         {{#if products}}
         {{#each products}}
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <div class="card h-100">
+            <div class="card h-100 shadow-sm border-light-subtle">
                 <div class="ratio ratio-4x3">
-                    <img src="/uploads/{{this.image}}" class="p-4 object-fit-contain" alt="{{this.name}}">
+                    {{#if this.image}}
+                    <img src="/uploads/{{this.image}}" class="p-4 object-fit-contain" alt="{{this.title}}">
+                    {{else}}
+                    <img src="/public/images/default-image.jpg" class="p-4 object-fit-contain" alt="{{this.title}}">
+                    {{/if}}
                 </div>
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title fs-6">{{this.title}}</h5>

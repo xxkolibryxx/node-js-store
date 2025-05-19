@@ -3,24 +3,20 @@ import Joi from "joi";
 export default {
     createSchema: {
         body: Joi.object({
-            title: Joi.string()
-                .regex(/^[a-zA-Zա-ևԱ-Ֆа-яА-Я0-9 _-]+$/)
-                .message("Product title can't contain number or symbol")
+            title: Joi.string().max(100)
                 .required(),
             price: Joi.number().required(),
-            description: Joi.string().required(),
+            description: Joi.string().allow(null, ''),
             categoryId: Joi.number()
         })
     },
     updateSchema: {
         body: Joi.object({
             id: Joi.number().required(),
-            title: Joi.string()
-                .regex(/^[a-zA-Zա-ևԱ-Ֆа-яА-Я0-9 _-]+$/)
-                .message("Product title can't contain number or symbol")
+            title: Joi.string().max(100)
                 .required(),
             price: Joi.number().required(),
-            description: Joi.string().required(),
+            description: Joi.string().allow(null, ''),
             categoryId: Joi.number()
         })
     },

@@ -11,6 +11,9 @@ export const validateMiddleware = (schema, type = 'admin') => {
             next();
         } catch (error) {
             req.session.error = error.details[0].message
+            if (req.filePath) {
+                await removeUploadedFile(req.filePath);
+            }
             res.redirect(req.get("Referrer") || `/${type}`)
         }
     };

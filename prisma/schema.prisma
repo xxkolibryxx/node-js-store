@@ -22,8 +22,8 @@ model Product {
   id          Int       @id @default(autoincrement())
   title       String    @db.VarChar(255)
   price       Int
-  description String
-  image       String    @db.VarChar(255)
+  description String?
+  image       String?   @db.VarChar(255)
   category    Category? @relation(fields: [categoryId], references: [id])
   categoryId  Int?
   createdAt   DateTime  @default(now())
