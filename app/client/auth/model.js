@@ -30,10 +30,23 @@ export const register = async ({ first_name, last_name, email, password }) => {
             email,
             password: hash,
             activationLink
+        },
+        select: {
+            id: true
         }
     })
 
     if (!newUser) {
+        throw ErrorService.BadRequestError()
+    }
+
+    const user_cart = await prisma.cart.create({
+        data: {
+            userId: newUser.id
+        }
+    })
+
+    if (!user_cart) {
         throw ErrorService.BadRequestError()
     }
 

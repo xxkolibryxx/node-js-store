@@ -12,6 +12,11 @@ export const setUser = async (req, res, next) => {
             first_name: true,
             last_name: true,
             email: true,
+            cart: {
+                select: {
+                    id: true
+                }
+            }
         }
     })
     res.locals.currentUser = user || null;

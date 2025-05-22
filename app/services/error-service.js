@@ -9,7 +9,7 @@ export class ErrorService extends Error {
     }
 
     static BadRequestError(message = 'Bad Request', errors = []) {
-        return new ErrorService(500, message, errors)
+        return new ErrorService(400, message, errors)
     }
 
     static UnauthorizedError(message = 'User unauthorized') {
