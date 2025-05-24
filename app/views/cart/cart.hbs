@@ -19,7 +19,9 @@
                     <td class="align-middle">{{this.title}}</td>
                     <td class="align-middle">{{this.price}} ֏</td>
                     <td class="align-middle">{{this.quantity}}</td>
-                    <td class="align-middle">Delete</td>
+                    <td class="align-middle">
+                        <button class="btn btn-danger delete-cart-item" data-product-id="{{this.id}}">Delete</button>
+                    </td>
                 </tr>
                 {{/each}}
             </tbody>

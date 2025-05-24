@@ -1,0 +1,97 @@
+import { prisma } from "../../services/prisma.js"
+import { CartDTO } from "../../dto/cart.js"
+
+export const getById = async (id) => {
+    try {
+        const cart = await prisma.cart.findUnique({
+            where: {
+                id: +id
+            },
+            select: {
+                items: {
+                    select: {
+                        id: true,
+                        quantity: true,
+                        product: true
+                    }
+                }
+            }
+        })
+        const cartDTO = cart.items?.map((item) => ({ ... new CartDTO(item) }))
+
+        const totalPrice = cartDTO.reduce((acc, item) => {
+            return acc + Number(item.price) * Number(item.quantity)
+        }, 0)
+        const cartCount = await prisma.cartItem.count({
+            where: {
+                cartId: cart.id
+            }
+        })
+        return {
+            cart: cartDTO,
+            totalPrice,
+            cartCount
+        }
+    } catch (error) {
+        console.log(error.message);
+
+        if (error instanceof ErrorService) {
+            throw error
+        }
+
+        if (error instanceof Prisma.PrismaClientValidationError) {
+            throw ErrorService.BadRequestError('Invalid input format')
+        }
+
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2003') {
+                throw ErrorService.BadRequestError()
+            }
+            if (error.code === 'P2002') {
+                throw ErrorService.BadRequestError()
+            }
+        }
+
+        throw ErrorService.BadRequestError(error.message || 'Unexpected error occurred')
+    }
+}
+
+export const remove = async (id) => {
+    try {
+        const cart = await prisma.cartItem.findUnique({
+            where: {
+                id: +id
+            },
+        })
+        if (cart) {
+            await prisma.cartItem.delete({
+                where: {
+                    id: +id
+                },
+            })
+            return true
+        }
+        return false
+    } catch (error) {
+        console.log(error.message);
+
+        if (error instanceof ErrorService) {
+            throw error
+        }
+
+        if (error instanceof Prisma.PrismaClientValidationError) {
+            throw ErrorService.BadRequestError('Invalid input format')
+        }
+
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2003') {
+                throw ErrorService.BadRequestError()
+            }
+            if (error.code === 'P2002') {
+                throw ErrorService.BadRequestError()
+            }
+        }
+
+        throw ErrorService.BadRequestError(error.message || 'Unexpected error occurred')
+    }
+}

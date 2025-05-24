@@ -33,7 +33,7 @@ export const create = async ({ cartId, productId, quantity }) => {
             }
         })
         if (existItem) {
-            const dsa = await prisma.cartItem.update({
+            const cartItem = await prisma.cartItem.update({
                 where: {
                     productId_cartId: {
                         productId: +productId,
@@ -44,16 +44,16 @@ export const create = async ({ cartId, productId, quantity }) => {
                     quantity: existItem.quantity += 1
                 }
             })
-            return true
+            return cartItem
         }
-        await prisma.cartItem.create({
+        const cartItem = await prisma.cartItem.create({
             data: {
                 productId: +productId,
                 cartId: +cartId,
                 quantity
             }
         })
-        return true
+        return cartItem
     }
     catch (error) {
         console.log(error.message);

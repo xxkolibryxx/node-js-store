@@ -5,6 +5,7 @@ import { PrismaSessionStore } from './app/services/PrismaSessionStore.js';
 
 import { clientRoutes } from './app/client/router.js';
 import { adminRoutes } from './app/admin/router.js';
+import { apiRoutes } from './app/api/router.js';
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -43,6 +44,7 @@ app.use('/uploads', express.static('uploads'))
 // Project Routes
 app.use('/', clientRoutes)
 app.use('/admin', adminRoutes)
+app.use('/api', apiRoutes)
 
 // Run Server
 app.listen(process.env.PORT)

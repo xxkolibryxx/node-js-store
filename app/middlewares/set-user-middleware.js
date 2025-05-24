@@ -19,6 +19,14 @@ export const setUser = async (req, res, next) => {
             }
         }
     })
+
+    const userCartCount = await prisma.cartItem.count({
+        where: {
+            cartId: +user.cart?.id
+        }
+    })
+
     res.locals.currentUser = user || null;
+    res.locals.userCartCount = userCartCount || 0;
     next();
 }
