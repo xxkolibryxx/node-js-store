@@ -22,5 +22,13 @@ export default {
                 .message("Password should be include uppercase and lowercase letters,numbers and symbols")
                 .required(),
         })
+    },
+    forgotPasswordSchema: {
+        body: Joi.object({
+            email: Joi.string()
+                .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+                .message("Invalid email format")
+                .required(),
+        })
     }
 }

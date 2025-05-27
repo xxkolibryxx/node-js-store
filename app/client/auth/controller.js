@@ -50,3 +50,56 @@ export const activateUser = async (req, res) => {
         res.redirect('/login')
     }
 }
+
+export const forgotPasswordPage = async (req, res) => {
+    res.render('auth/forgot-password', {
+        error: req.session.error,
+    })
+    delete req.session.error
+}
+export const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body
+        const isResetLinkSet = await authModel.setResetLink(email)
+        if (isResetLinkSet) {
+            res.redirect('/login')
+        }
+        else {
+            res.redirect('/forgot-password')
+        }
+    } catch (error) {
+        req.session.error = error.message
+        res.redirect('/forgot-password')
+    }
+}
+
+export const resetPasswordPage = async (req, res) => {
+    try {
+        const { resetLink } = req.params
+        const user = await authModel.validateResetLink(resetLink)
+
+        if (user) {
+            res.render('auth/reset-password', {
+                userID: user.id
+            })
+        }
+        else {
+            res.render('404')
+        }
+    } catch (error) {
+        console.log(error.message);
+        res.redirect('/login')
+    }
+}
+
+export const resetPassword = async (req, res) => {
+    try {
+        const { userId, password } = req.body
+        await authModel.resetPassword(userId, password)
+        res.redirect('/login')
+
+    } catch (error) {
+        console.log(error.message);
+        res.redirect('/login')
+    }
+}

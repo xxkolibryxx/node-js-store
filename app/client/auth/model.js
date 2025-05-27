@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import { USER_ROLES } from '../../constants/constants.js'
 import { ErrorService } from '../../services/error-service.js'
 import { prisma } from '../../services/prisma.js'
@@ -110,4 +111,145 @@ export const activateUser = async (activationLink) => {
         }
     })
     return true
+}
+
+export const setResetLink = async (email) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                email
+            },
+            select: {
+                id: true
+            }
+        })
+        if (user) {
+            const resetLink = uuidV4()
+            await prisma.user.update({
+                where: {
+                    id: user.id
+                },
+                data: {
+                    resetLink
+                }
+            })
+            return true
+        }
+        throw ErrorService.BadRequestError('User not found')
+    } catch (error) {
+        console.log(error.message);
+
+        if (error instanceof ErrorService) {
+            throw error
+        }
+
+        if (error instanceof Prisma.PrismaClientValidationError) {
+            throw ErrorService.BadRequestError('Invalid input format')
+        }
+
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2003') {
+                throw ErrorService.BadRequestError('Something went wrong')
+            }
+            if (error.code === 'P2002') {
+                throw ErrorService.BadRequestError('Something went wrong')
+            }
+        }
+
+        throw ErrorService.BadRequestError(error.message || 'Unexpected error occurred')
+    }
+}
+
+export const validateResetLink = async (resetLink = '') => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                resetLink
+            },
+            select: {
+                id: true
+            }
+        })
+
+        if (!user) {
+            return false
+        }
+        await prisma.user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                resetLink: null
+            }
+        })
+        return user
+    } catch (error) {
+        console.log(error.message);
+
+        if (error instanceof ErrorService) {
+            throw error
+        }
+
+        if (error instanceof Prisma.PrismaClientValidationError) {
+            throw ErrorService.BadRequestError('Invalid input format')
+        }
+
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2003') {
+                throw ErrorService.BadRequestError('Something went wrong')
+            }
+            if (error.code === 'P2002') {
+                throw ErrorService.BadRequestError('Something went wrong')
+            }
+        }
+
+        throw ErrorService.BadRequestError(error.message || 'Unexpected error occurred')
+    }
+
+}
+
+export const resetPassword = async (userId, password) => {
+
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: +userId
+            }
+
+        })
+        if (user) {
+            const hash = await bcrypt.hash(password, 10);
+            await prisma.user.update({
+                where: {
+                    id: user.id
+                },
+                data: {
+                    password: hash
+                }
+            })
+            return true
+        }
+        return false
+    } catch (error) {
+        console.log(error.message);
+
+        if (error instanceof ErrorService) {
+            throw error
+        }
+
+        if (error instanceof Prisma.PrismaClientValidationError) {
+            throw ErrorService.BadRequestError('Invalid input format')
+        }
+
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2003') {
+                throw ErrorService.BadRequestError('Something went wrong')
+            }
+            if (error.code === 'P2002') {
+                throw ErrorService.BadRequestError('Something went wrong')
+            }
+        }
+
+        throw ErrorService.BadRequestError(error.message || 'Unexpected error occurred')
+    }
 }

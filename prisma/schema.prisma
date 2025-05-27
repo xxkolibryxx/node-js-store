@@ -52,6 +52,7 @@ model User {
   password       String
   role           Role      @default(USER)
   activationLink String?   @unique
+  resetLink      String?   @unique
   isActivated    Boolean   @default(false)
   sessions       Session[]
   cart           Cart?
