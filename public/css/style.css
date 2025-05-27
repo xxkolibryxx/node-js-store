@@ -1,3 +1,19 @@
+*:focus {
+    box-shadow: unset !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
 html,
 body {
     height: 100%;
@@ -22,4 +38,18 @@ main {
 .cart-button .cart-button-badge {
     font-size: 9px;
     margin-top: 8px;
+}
+
+.cart-table .price {
+    min-width: 140px;
+}
+
+.cart-table .quantity {
+    width: 140px;
+    min-width: 140px;
+
+}
+
+.cart-table .title {
+    min-width: 200px;
 }

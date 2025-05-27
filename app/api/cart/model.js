@@ -1,6 +1,6 @@
 import { prisma } from "../../services/prisma.js"
 import { CartDTO } from "../../dto/cart.js"
-
+import { ErrorService } from '../../services/error-service.js'
 export const getById = async (id) => {
     try {
         const cart = await prisma.cart.findUnique({
@@ -94,4 +94,24 @@ export const remove = async (id) => {
 
         throw ErrorService.BadRequestError(error.message || 'Unexpected error occurred')
     }
+}
+
+export const update = async ({ cartItemId, quantity }) => {
+    const cartItem = await prisma.cartItem.findUnique({
+        where: {
+            id: +cartItemId
+        }
+    })
+    if (!cartItem) throw ErrorService.NotFoundErrorCreator('Cart item not found')
+
+    if (quantity < 1) {
+
+        await prisma.cartItem.delete({ where: { id: cartItemId } })
+        return null
+    }
+
+    return await prisma.cartItem.update({
+        where: { id: cartItemId },
+        data: { quantity }
+    })
 }
