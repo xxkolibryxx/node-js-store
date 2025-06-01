@@ -1,6 +1,7 @@
 import { prisma } from "../../services/prisma.js"
 import { CartDTO } from "../../dto/cart.js"
 import { ErrorService } from '../../services/error-service.js'
+import { handleDatabaseError } from "../../helpers/handleDatabaseErrors.js"
 export const getById = async (id) => {
     try {
         const cart = await prisma.cart.findUnique({
@@ -33,26 +34,7 @@ export const getById = async (id) => {
             cartCount
         }
     } catch (error) {
-        console.log(error.message);
-
-        if (error instanceof ErrorService) {
-            throw error
-        }
-
-        if (error instanceof Prisma.PrismaClientValidationError) {
-            throw ErrorService.BadRequestError('Invalid input format')
-        }
-
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2003') {
-                throw ErrorService.BadRequestError()
-            }
-            if (error.code === 'P2002') {
-                throw ErrorService.BadRequestError()
-            }
-        }
-
-        throw ErrorService.BadRequestError(error.message || 'Unexpected error occurred')
+        handleDatabaseError(error, { cartId: id, operation: 'API:Cart getById' });
     }
 }
 
@@ -73,26 +55,7 @@ export const remove = async (id) => {
         }
         return false
     } catch (error) {
-        console.log(error.message);
-
-        if (error instanceof ErrorService) {
-            throw error
-        }
-
-        if (error instanceof Prisma.PrismaClientValidationError) {
-            throw ErrorService.BadRequestError('Invalid input format')
-        }
-
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2003') {
-                throw ErrorService.BadRequestError()
-            }
-            if (error.code === 'P2002') {
-                throw ErrorService.BadRequestError()
-            }
-        }
-
-        throw ErrorService.BadRequestError(error.message || 'Unexpected error occurred')
+        handleDatabaseError(error, { cartItemId: id, operation: 'API:Cart remove' });
     }
 }
 

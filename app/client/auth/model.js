@@ -4,6 +4,7 @@ import { ErrorService } from '../../services/error-service.js'
 import { prisma } from '../../services/prisma.js'
 import bcrypt from 'bcrypt'
 import { v4 as uuidV4 } from 'uuid'
+import { handleDatabaseError } from '../../helpers/handleDatabaseErrors.js'
 
 export const register = async ({ first_name, last_name, email, password }) => {
     if (!first_name || !last_name || !email || !password) {
@@ -184,26 +185,7 @@ export const validateResetLink = async (resetLink = '') => {
         })
         return user
     } catch (error) {
-        console.log(error.message);
-
-        if (error instanceof ErrorService) {
-            throw error
-        }
-
-        if (error instanceof Prisma.PrismaClientValidationError) {
-            throw ErrorService.BadRequestError('Invalid input format')
-        }
-
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2003') {
-                throw ErrorService.BadRequestError('Something went wrong')
-            }
-            if (error.code === 'P2002') {
-                throw ErrorService.BadRequestError('Something went wrong')
-            }
-        }
-
-        throw ErrorService.BadRequestError(error.message || 'Unexpected error occurred')
+        handleDatabaseError(error, { resetLink, userId: user?.id, operation: 'validateResetLink' });
     }
 
 }
@@ -231,25 +213,6 @@ export const resetPassword = async (userId, password) => {
         }
         return false
     } catch (error) {
-        console.log(error.message);
-
-        if (error instanceof ErrorService) {
-            throw error
-        }
-
-        if (error instanceof Prisma.PrismaClientValidationError) {
-            throw ErrorService.BadRequestError('Invalid input format')
-        }
-
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2003') {
-                throw ErrorService.BadRequestError('Something went wrong')
-            }
-            if (error.code === 'P2002') {
-                throw ErrorService.BadRequestError('Something went wrong')
-            }
-        }
-
-        throw ErrorService.BadRequestError(error.message || 'Unexpected error occurred')
+        handleDatabaseError(error, { userId, operation: 'resetPassword' });
     }
 }

@@ -3,10 +3,11 @@ import { ErrorService } from '../../services/error-service.js';
 export const getById = async (req, res) => {
     try {
         const user = res.locals.currentUser
-        const cartId = user?.cart?.id
+        const { cartId } = user
         const data = await cartModel.getById(cartId)
         res.send(data)
     } catch (error) {
+        console.log(user);
         console.log(error.message);
         res.send(error.message)
     }
