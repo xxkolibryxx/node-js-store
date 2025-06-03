@@ -9,3 +9,10 @@ export const MULTER_UPLOAD_MODE = {
     single: 'single',
     multiple: 'multiple'
 }
+
+export const ORDER_STATUSES = {
+    complete: "COMPLETE",
+    pending: "PENDING",
+    reject: "REJECTED",
+    delivery: "DELIVERY"
+}
