@@ -1,5 +1,6 @@
 import { ORDER_STATUSES } from '../../constants/constants.js'
 import * as orderModel from './model.js'
+import * as productModel from '../product/model.js'
 export const list = async (req, res) => {
     try {
         const orders = await orderModel.getAll()
@@ -49,5 +50,19 @@ export const update = async (req, res) => {
         const { id } = req.body
         req.session.error = error.message
         res.redirect(`admin/order/update/${id}`)
+    }
+}
+
+export const createPage = async (req, res) => {
+    try {
+        const products = await productModel.getAll()
+        res.render('admin/order/add-order.hbs', {
+            error: req.session.error,
+            layout: 'admin',
+            products
+        })
+        delete req.session.error
+    } catch (error) {
+        res.redirect('/admin/order')
     }
 }
